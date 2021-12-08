@@ -1,42 +1,32 @@
 #include "Deck.h"
-#include <vector>
-#include <iostream>
+#include "CardFactory.h"
 
-//Definition du constructeur
-Deck::Deck(istream &inp, CardFactory * card_factory){
-	*this = ( card_factory->setDeck(inp) );
-
-}
-
-//Retourne le jeu des cartes
-Deck::Deck(CardFactory* card_factory){
-	*this = (*card_factory).getDeck();
-}
-
-//retourne et supprime la carte sup�rieure du Deck.
-//Definition de draw
-Card * Deck::draw(){
-	if (this->empty()) {
-		throw DeckEmpty();
-		return nullptr;
+Deck::Deck(std::istream& is, CardFactory* _cFactory)
+{
+	Deck temp;
+	std::string line;	std::getline(is, line);
+	std::istringstream record(line);
+	char ch;
+	while (record.get(ch)) {
+		if (ch != ' ') 	temp.push_back(_cFactory->getCard(ch));
 	}
+	new (&(*this)) Deck(temp);  // Re-construct itself using default copy constructor(shallow copy)
+}
+
+Card* Deck::draw()
+{
+	if (empty()) return nullptr;
 	else {
-		Card* temp = (*this).back();
-		(*this).pop_back();
-		return temp;
-	
+		Card* card = back();
+		pop_back();
+		return card;
 	}
-	
 }
 
-//Operateur >>
-ostream & operator >> (ostream & out, Deck deck) {
-	for (vector<Card*>::iterator iter = deck.begin(); 
-	iter != deck.end(); 
-	iter++) 
-	{
-		out << (*iter);
+std::ostream& operator<<(std::ostream& os, Deck& _deck)
+{
+	for (auto& c : _deck) {
+		os << *c;
 	}
-	return out;
-	
+	return os;
 }

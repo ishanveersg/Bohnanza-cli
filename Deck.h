@@ -1,34 +1,29 @@
-#ifndef Deck_h
-#define Deck_h
-#include "Card.h"
+#pragma once
+#ifndef DECK_H
+#define DECK_H
+
 #include <vector>
+#include <sstream>
 #include <iostream>
-#include "CardFactory.h"
+#include "Beans.h"
 
-class CardFactory;
-
-class Deck : public vector<Card*> {
+class Deck : public std::vector<Card*> {
 public:
-	// Constructeur par defaut
-	
 	Deck() = default;
-	Deck(istream&, CardFactory*); //Constructeur voir le manuel du projet
-	
-	Deck(CardFactory*); // Paquet des cartes
-	
-	Card* draw(); //retourne et supprime la carte supérieure du Deck.
-	friend ostream & operator << (ostream &, Deck); //Operateur
+
+	/**
+	*  A constructor that accepts the istream,
+	*  and can be reconstructed from file
+	*/
+	Deck(std::istream&, class CardFactory*);
+
+	/**
+	*  Draw a Card from the top of the Deck
+	*  Returns a nullptr if deck is empty
+	*/
+	Card* draw();
+
+	friend std::ostream& operator<<(std::ostream&, Deck&);
 };
 
-//Exception si la pile est vide
-//Retourner 0 s'il n'y a plus des cartes
-class DeckEmpty : public exception
-{
-	virtual const char* what() const throw()
-	{
-		return "0";
-	}
-};
-
-
-
+#endif // ! _DECK_H_
