@@ -1,131 +1,61 @@
 #include "TradeArea.h"
 
-//Helper function
-template <typename Container>
-bool contains(Container const& MaCarte1, typename Container::const_reference val1) {
-	return std::find(MaCarte1.begin(), MaCarte1.end(), val1) != MaCarte1.end();
-}
-
-template<class InputIterator, class T>
-InputIterator findName(InputIterator first, InputIterator last, const T& val){
-	while (first != last) {
-		if ((*first)->getName().compare(val) == 0) return first;
-		++first;
+std::ostream& operator<<(std::ostream& os, TradeArea& _tradeArea)
+{
+	for (auto& c : _tradeArea.d_tradeCards) {
+		c->print(os);
 	}
-	return last;
+	return os;
 }
 
-
-bool containsName(list<Card*> const& MaCarte1, string& val1) {
-	
-	list<Card*>::const_iterator first = MaCarte1.begin();
-	list<Card*>::const_iterator last = MaCarte1.end();
-	
-	while (first != last) {
-		
-		if ((*first)->getName().compare(val1) == 0) 
-		return true;
-		
-		++first;
+TradeArea::TradeArea(std::istream& is, CardFactory* _cFactory)
+{
+	std::string line;  
+	std::getline(is, line);
+	std::istringstream record(line);
+	char ch;
+	while (record.get(ch)) {
+		if (ch != ' ') 	d_tradeCards.push_back(_cFactory->getCard(ch));
 	}
-	
-	return false;
-
 }
 
-TradeArea::TradeArea(){
-	
-	cards = new list<Card*>;
-	cardTypes = list<string>();
-}
-
-TradeArea::~TradeArea();
-
-
-
-TradeArea & TradeArea::operator+=(Card *card){
-	
-	(*cards).insert((*cards).begin(), card);
-	
-	if (!contains(cardTypes, card->getName())) {						
-		cardTypes.emplace_front(card->getName());
-
-	}
-
+TradeArea& TradeArea::operator+=(Card* _card)
+{
+	if (_card != nullptr) d_tradeCards.push_back(_card);
 	return *this;
 }
 
-bool TradeArea::legal(Card *card){
-	return (cards->size() < 3 || contains(cardTypes, card->getName()));
+bool TradeArea::legal(Card* _card)
+{
+	// If a null pointer is passed in:
+	if (_card == nullptr) return false;
+
+	bool hasSame = false;
+	for (auto& c : d_tradeCards) {
+		if ((c->getName()) == (_card->getName())) hasSame = true;
+	}
+	return hasSame;
 }
 
-bool TradeArea::empty(){
-	return cards->empty();
-}
-
-Card * TradeArea::trade(string name){
-	
-	if (empty())
-	
-		return nullptr;
-	list<Card*>::iterator iterateur__ = cards->begin();
-	
-	while (iterateur__ != cards->end()) {
-		if (name.compare((**iterateur__).getName()) == 0) {
-			Card* temp = *iterateur__;
-			cards->erase(iterateur__);
-			if (!containsName(*cards, name)) {					
-				cardTypes.remove(name);
-			}
-			return temp;
+Card* TradeArea::trade(std::string _name)
+{
+	Card* card = nullptr;
+	for (auto iter = d_tradeCards.begin(); iter != d_tradeCards.end(); ++iter) {
+		if ((*iter)->getName() == _name) {
+			card = *iter;
+			d_tradeCards.erase(iter);
+			break;
 		}
-		iterateur__ = iterateur__ + 1 ;
 	}
-	
-	return nullptr;
+	return card;
 }
 
-int TradeArea::numCards(){
-	return cards->size();
+int TradeArea::numCards() const
+{
+	return d_tradeCards.size();
 }
 
-TradeArea::TradeArea(istream & in, CardFactory *cf){
-	
-	cards = new list<Card*>;
-	cardTypes = list<string>();
-	char cardType[256];
-	in.getline(cardType, 256);
-	int cnt = 0;
-	while (cardType[cnt] != NULL) {
-		cnt++;
-	}
-	cnt--;
-	for (int i = cnt ; i >= 0; i--) {
-			Card* cardToAdd = ((*cf).getCard(cardType[i]));
-			(*this) += cardToAdd;
-		}
-
-
-
-}
-
-string TradeArea::getCardType(int i){
-	
-	list<string>::iterator iterateur__ = cardTypes.begin();
-	while (i > 0 && it != cardTypes.end()) {
-		iterateur__ = iterateur__ ;
-		i = i-1;
-		
-	}
-	return *iterateur__;
-}
-
-
-ostream & operator>> (ostream & out, TradeArea trade_area){
-	
-	for (list<Card*>::iterator iterateur__ = trade_area.cards->begin(); iterateur__ != trade_area.cards->end(); it++) {
-		out << (*iterateur__);
-	}
-	return out;
-
+std::list<Card*>& TradeArea::getTradeCards()
+{
+	return d_tradeCards;
 }

@@ -13,7 +13,7 @@ Deck::Deck(CardFactory* card_factory){
 	*this = (*card_factory).getDeck();
 }
 
-//retourne et supprime la carte supérieure du Deck.
+//retourne et supprime la carte supï¿½rieure du Deck.
 //Definition de draw
 Card * Deck::draw(){
 	if (this->empty()) {
