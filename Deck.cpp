@@ -1,14 +1,14 @@
 #include "Deck.h"
 #include "CardFactory.h"
 
-Deck::Deck(std::istream& is, CardFactory* _cFactory)
-{
+Deck::Deck(std::istream& istr, CardFactory* _cFactory){
+	
 	Deck temp;
-	std::string line;	std::getline(is, line);
+	std::string line;	std::getline(istr, line);
 	std::istringstream record(line);
-	char ch;
-	while (record.get(ch)) {
-		if (ch != ' ') 	temp.push_back(_cFactory->getCard(ch));
+	char char_;
+	while (record.get(char_)) {
+		if (char_ != ' ') 	temp.push_back(_cFactory->getCard(char_));
 	}
 	new (&(*this)) Deck(temp);  // Re-construct itself using default copy constructor(shallow copy)
 }
@@ -23,10 +23,10 @@ Card* Deck::draw()
 	}
 }
 
-std::ostream& operator<<(std::ostream& os, Deck& _deck)
+std::ostream& operator<<(std::ostream& ostr, Deck& _deck)
 {
 	for (auto& c : _deck) {
-		os << *c;
+		ostr << *c;
 	}
-	return os;
+	return ostr;
 }
