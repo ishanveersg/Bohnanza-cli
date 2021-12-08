@@ -1,7 +1,6 @@
 #include "CardFactory.h"
 
-CardFactory::CardFactory()
-{
+CardFactory::CardFactory(){ //Initialiser de cartes 104 au total
 	for (size_t noBlue = 0; noBlue < 20; ++noBlue) {
 		deck.push_back(new Blue());
 	}
@@ -30,7 +29,7 @@ CardFactory::CardFactory()
 
 	cardReturned.fill(false);
 }
-
+//Getdeck renvoi toutes les cartes
 Deck CardFactory::getDeck()
 {
 	// Shuffle the deck and return it
