@@ -3,23 +3,23 @@
 #include <iostream>
 
 //Pour gerer la pile des cartes
-class DiscardPile : public vector<Card*> {
+class DiscardPile {
+
+private: vector<Card*> d_cards;
+
 public:
 	DiscardPile(); //COnstructeur sans argument
 	~DiscardPile(); //Desctructeur
 	DiscardPile& operator+= (Card*); //Jetter une carte dans la pile
 	
-	Card* pickUp(); //renvoie et supprime la carte supérieure de la pile au rebut
-	Card* top(); //renvoie mais ne supprime pas la carte supérieure de la pile au rebut
+	Card* pickUp(); //renvoie et supprime la carte supï¿½rieure de la pile au rebut
+	Card* top(); //renvoie mais ne supprime pas la carte supï¿½rieure de la pile au rebut
 	
-	void print(ostream&); //pour insérer toutes les cartes de DiscardPile dans std::ostream
+	void print(ostream&); //pour insï¿½rer toutes les cartes de DiscardPile dans std::ostream
 	
 	friend ostream & operator << (ostream &, DiscardPile); //Operateur
-	DiscardPile(istream&, CardFactory*); //possède un constructeur qui accepte un flux istream et construit un objet de type DiscardPile à partir du fichier
+	DiscardPile(istream&, CardFactory*); //possï¿½de un constructeur qui accepte un flux istream et construit un objet de type DiscardPile ï¿½ partir du fichier
 	
 	bool isEmpty(); //Verifie s'il y a des cartes ou pas
 	
 };
-
-
-
