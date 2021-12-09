@@ -1,4 +1,5 @@
 #include <list>
+#include <vector>
 #include <fstream>
 #include <random>
 #include <algorithm>
@@ -6,6 +7,7 @@
 #include "Deck.h"
 #include "Card.h"
 #include "Beans.h"
+
 
 class CardFactory {
 private:
