@@ -1,5 +1,5 @@
-#ifndef CardFactory_h
-#define CardFactory_h
+#include <list>
+#include <fstream>
 #include <random>
 #include <algorithm>
 #include <iterator>
@@ -7,17 +7,18 @@
 #include "Card.h"
 #include "Beans.h"
 
-class Deck;
-
 class CardFactory {
-	Deck *deck;
-	CardFactory(const CardFactory&);
-	CardFactory();
+private:
+    Deck *d_deck;
+    CardFactory(std::istream &input);
 
 public:
-	static CardFactory* getFactory();
-	Deck getDeck();
-	Card* getCard(char);
-	Deck setDeck (istream &);
+    static CardFactory *getFactory(std::istream &input) {
+        static CardFactory *instance = new CardFactory(input);
+        return instance;
+    };
+
+    Deck *getDeck();
+    ~CardFactory();
 };
-#endif
+
