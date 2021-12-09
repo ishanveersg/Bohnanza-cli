@@ -1,26 +1,30 @@
-#include <list>
-#include <vector>
-#include <fstream>
+#ifndef CardFactory_h
+#define CardFactory_h
 #include <random>
 #include <algorithm>
 #include <iterator>
 #include "Deck.h"
 #include "Card.h"
-#include "Beans.h"
+#include "Blue.cpp"
+#include "Chili.cpp"
+#include "Stink.cpp"
+#include "Green.cpp"
+#include "Soy.cpp"
+#include "Black.cpp"
+#include "Red.cpp"
+#include "Garden.cpp"
 
+class Deck;
 
 class CardFactory {
-private:
-    Deck *d_deck;
-    CardFactory(std::istream &input);
+	Deck *deck;
+	CardFactory(const CardFactory&);
+	CardFactory();
 
 public:
-    static CardFactory *getFactory(std::istream &input) {
-        static CardFactory *instance = new CardFactory(input);
-        return instance;
-    };
-
-    Deck *getDeck();
-    ~CardFactory();
+	static CardFactory* getFactory();
+	Deck getDeck();
+	Card* getCard(char);
+	Deck setDeck (istream &);
 };
-
+#endif
