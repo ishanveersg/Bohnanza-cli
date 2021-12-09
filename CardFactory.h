@@ -5,19 +5,12 @@
 #include <iterator>
 #include "Deck.h"
 #include "Card.h"
-#include "Blue.cpp"
-#include "Chili.cpp"
-#include "Stink.cpp"
-#include "Green.cpp"
-#include "Soy.cpp"
-#include "Black.cpp"
-#include "Red.cpp"
-#include "Garden.cpp"
+#include "Beans.h"
 
 class Deck;
 
 class CardFactory {
-	Deck *deck;
+	Deck *d_deck;
 	CardFactory(const CardFactory&);
 	CardFactory();
 

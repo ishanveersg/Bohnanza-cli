@@ -13,27 +13,26 @@ CardFactory::CardFactory(std::istream &input) {
         d_deck = new Deck(input, this);
     }
     if (d_deck->empty()) {
-        //Populate the deck with the specified cards
+        //Populate the deck 
         for (size_t i = 0; i < 104; i++) {
             if (i < 20) {
-                d_deck->push_back(new Quartz());
+                d_deck->push_back(new Blue());
             } else if (i < 38) {
-                d_deck->push_back(new Hematite());
+                d_deck->push_back(new Chili());
             } else if (i < 54) {
-                d_deck->push_back(new Obsidian());
+                d_deck->push_back(new Stink());
             } else if (i < 68) {
-                d_deck->push_back(new Malachite());
+                d_deck->push_back(new Green());
             } else if (i < 80) {
-                d_deck->push_back(new Turquoise());
+                d_deck->push_back(new Soy());
             } else if (i < 90) {
-                d_deck->push_back(new Ruby());
+                d_deck->push_back(new Black());
             } else if (i < 98) {
-                d_deck->push_back(new Amethyst());
+                d_deck->push_back(new Red());
             } else {
-                d_deck->push_back(new Emerald());
+                d_deck->push_back(new Garden());
             }
         }
-        //Only shuffle when a new deck is made. If we're loading from a file we want to persist the deck
         std::random_shuffle(d_deck->begin(), d_deck->end());
     }
 }
