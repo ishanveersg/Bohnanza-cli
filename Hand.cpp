@@ -1,4 +1,4 @@
-#include "hand.h"
+#include "Hand.h"
 #include <string>
 #include <iostream>
 

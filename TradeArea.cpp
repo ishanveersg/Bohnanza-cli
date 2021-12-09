@@ -3,24 +3,6 @@
 #include <vector>
 
 
-/* 
-Test 1
-template <typename Container>
-bool contains(Container const& MaCarte1, typename Container::const_reference val1) {
-	return std::find(MaCarte1.begin(), MaCarte1.end(), val1) != MaCarte1.end();
-}
-
-template<class InputIterator, class T>
-InputIterator findName(InputIterator first, InputIterator last, const T& val){
-	while (premier != dernier) {
-		if ((*dernier)->getName().compare(val) == 0) return first;
-		++premier;
-	}
-	return dernier.Card;
-}
-
- */
- 
  //Modele de Cont 
 template <typename Base>
 bool contains(Base const& MaCarte1, typename Base::const_reference val1) {
@@ -62,10 +44,6 @@ TradeArea::TradeArea(){
 	cardTypes = list<string>();
 }
 
-TradeArea::~TradeArea();
-
-
-
 TradeArea & TradeArea::operator+=(Card *card){
 	
 	(*cards).insert((*cards).begin(), card);
@@ -80,10 +58,6 @@ TradeArea & TradeArea::operator+=(Card *card){
 
 bool TradeArea::legal(Card *card){
 	return (cards->size() < 3 || contains(cardTypes, card->getName()));
-}
-
-bool TradeArea::empty(){
-	return cards->empty();
 }
 
 Card * TradeArea::trade(string name){
@@ -102,7 +76,7 @@ Card * TradeArea::trade(string name){
 			}
 			return temp;
 		}
-		iterateur__ = iterateur__ + 1 ;
+		iterateur__ = iterateur__++ ;
 	}
 	
 	return nullptr;
@@ -127,28 +101,5 @@ TradeArea::TradeArea(istream & in, CardFactory *cf){
 			Card* cardToAdd = ((*cf).getCard(cardType[i]));
 			(*this) += cardToAdd;
 		}
-
-
-
 }
 
-string TradeArea::getCardType(int i){
-	
-	list<string>::iterator iterateur__ = cardTypes.begin();
-	while (i > 0 && it != cardTypes.end()) {
-		iterateur__ = iterateur__ ;
-		i = i-1;
-		
-	}
-	return *iterateur__;
-}
-
-
-ostream & operator>> (ostream & out, TradeArea trade_area){
-	
-	for (list<Card*>::iterator iterateur__ = trade_area.cards->begin(); iterateur__ != trade_area.cards->end(); it++) {
-		out << (*iterateur__);
-	}
-	return out;
-
-}
